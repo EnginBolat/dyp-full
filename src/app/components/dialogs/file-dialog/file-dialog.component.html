@@ -1,0 +1,45 @@
+<mat-toolbar color="primary">
+  <span>{{ dialogTitle }}</span>
+</mat-toolbar>
+
+<div class="container">
+  <form [formGroup]="frm">
+    <!-- File Name -->
+
+    <mat-form-field appearance="outline">
+      <mat-label>Dosya Adı</mat-label>
+      <input matInput placeholder="Dosya Adı" formControlName="fileName" name="fileName" required type="text" />
+    </mat-form-field>
+
+    <!-- Email -->
+
+    <mat-form-field appearance="outline">
+      <mat-label>Grup Adı</mat-label>
+      <input matInput placeholder="Grup Adı" formControlName="fileGroupId" name="fileGroupId" required type="text" />
+    </mat-form-field>
+
+    <!-- Type -->
+
+    <mat-form-field appearance="outline">
+      <mat-label>Dosya Türü</mat-label>
+      <input matInput placeholder="Dosya Türü" formControlName="fileTypeId" name="fileTypeId" required type="text" />
+    </mat-form-field>
+
+    <!--  -->
+    &nbsp;
+    <div>
+      <input type="file" (change)="AddFile($event)"/>
+    </div>
+    &nbsp;
+
+  </form>
+
+  <!-- Save Button -->
+
+  <button mat-raised-button color="primary" (click)="dialogRef.close(frm.value)" [disabled]="frm.invalid">Kaydet</button>&nbsp;
+
+  <!-- Cancel Button -->
+
+  <button mat-raised-button color="warn" (click)="dialogRef.close()">İptal</button>
+
+</div>

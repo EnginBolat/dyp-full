@@ -1,0 +1,26 @@
+<mat-toolbar color="primary">
+  <span>{{ dialogTitle }}</span>
+</mat-toolbar>
+
+<div class="container">
+  <form [formGroup]="frm">
+
+    <!-- Group Name -->
+
+    <mat-form-field appearance="outline">
+      <mat-label>Grup Adı</mat-label>
+      <input matInput placeholder="Grup Adı" formControlName="groupName" name="groupName" required type="text" />
+    </mat-form-field>
+
+  </form>
+
+  <!-- Save Button -->
+
+  <button mat-raised-button color="primary" (click)="dialogRef.close(frm.value)"
+    [disabled]="frm.invalid">Kaydet</button>&nbsp;
+
+  <!-- Cancel Button -->
+
+  <button mat-raised-button color="warn" (click)="dialogRef.close()">İptal</button>
+
+</div>

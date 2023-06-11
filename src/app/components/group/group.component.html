@@ -1,0 +1,75 @@
+<div class="container">
+  <p>&nbsp;</p>
+  <h2>Gruplar</h2>
+
+  <!-- Floating Action Button -->
+
+  <button mat-fab (click)="AddGroup()">
+    <mat-icon aria-label="label" color="primary">add</mat-icon>
+  </button>
+
+  <!-- SearchBox -->
+
+  <mat-form-field appearance="outline">
+    <input
+      matInput
+      placeholder="Aranacak Grup İsmi Giriniz"
+      (keyup)="Filter($event)"
+    />
+  </mat-form-field>
+
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="groupName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header
+        >Grup Adı</mat-header-cell
+      >
+      <mat-cell *matCellDef="let group">{{ group.groupName }}</mat-cell>
+    </ng-container>
+
+      <!-- Total Count Column -->
+      <ng-container matColumnDef="totalUser">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Toplam Üye</mat-header-cell
+        >
+        <mat-cell *matCellDef="let group">{{ group.totalUser }}</mat-cell>
+      </ng-container>
+
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="islemler">
+      <mat-header-cell *matHeaderCellDef>İşlemler</mat-header-cell>
+      <mat-cell *matCellDef="let group">
+        <button mat-icon-button matTooltip="Dosyaları Listele">
+          <mat-icon aria-label="label" color="primary">article</mat-icon>
+        </button>
+
+        <button
+          mat-icon-button
+          matTooltip="Üye Düzenle"
+          (click)="EditGroup(group)"
+        >
+          <mat-icon aria-label="label" color="primary">edit</mat-icon>
+        </button>
+
+        <button mat-icon-button matTooltip="Üye Sil" (click)="DeleteGroup(group)">
+          <mat-icon aria-label="label" color="warn">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Header Row -->
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+    <!-- Row Definition -->
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    
+  </mat-table>
+
+  <!-- Paginator -->
+  <mat-paginator
+    [pageSizeOptions]="[1, 10, 50, 100, 500]"
+    showFirstLastButtons="true"
+  >
+  </mat-paginator>
+</div>

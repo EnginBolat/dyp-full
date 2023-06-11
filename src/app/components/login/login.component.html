@@ -1,0 +1,22 @@
+<div class="container">
+  <h2>Oturum Aç</h2>
+
+  <!-- Email -->
+
+  <mat-form-field appearance="outline" style="width: 50%;">
+    <mat-label>Email</mat-label>
+    <input matInput placeholder="Email" type="string" #email>
+  </mat-form-field>
+
+  <!-- Password -->
+
+  <mat-form-field appearance="outline" style="width: 50%;">
+    <mat-label>Parola</mat-label>
+    <input matInput placeholder="Parola" type="password" #password>
+  </mat-form-field> 
+
+  <!-- Login Button -->
+
+  <button mat-raised-button color="primary" (click)="Login(email.value,password.value)">Giriş Yap</button>
+
+</div>

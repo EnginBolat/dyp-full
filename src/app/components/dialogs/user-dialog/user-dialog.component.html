@@ -1,0 +1,62 @@
+<mat-toolbar color="primary">
+  <span>{{ dialogTitle }}</span>
+</mat-toolbar>
+
+<div class="container">
+  <form [formGroup]="frm">
+    <!-- Name Surname -->
+
+    <mat-form-field appearance="outline">
+      <mat-label>Ad Soyad</mat-label>
+      <input matInput placeholder="Ad Soyad" formControlName="userNameSurname" name="userNameSurname" required
+        type="text" />
+    </mat-form-field>
+
+    <!-- Email -->
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Email" formControlName="userEmail" name="userEmail" required type="email" />
+    </mat-form-field>
+
+    <!-- Password -->
+
+    <mat-form-field appearance="outline">
+      <mat-label>Parola</mat-label>
+      <input matInput placeholder="Parola" formControlName="userPassword" name="userPassword" required
+        type="password" />
+    </mat-form-field>
+
+    <!-- Authority -->
+
+    <mat-form-field appearance="outline">
+      <mat-label>Yetki</mat-label>
+      <mat-select required formControlName="userAuthority" name="userAuthority">
+        <mat-option *ngFor="let auth of authList" [value]="auth">
+          <mat-label>{{auth.authorityName}}</mat-label>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Group -->
+
+    <mat-form-field appearance="outline">
+      <mat-label>Grup</mat-label>
+      <mat-select required formControlName="userGroup" name="userGroup">
+        <mat-option *ngFor="let group of groupList" [value]="group">
+          <mat-label>{{group.groupName}}</mat-label>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+
+  <!-- Save Button -->
+
+  <button mat-raised-button color="primary" (click)="dialogRef.close(frm.value)"
+    [disabled]="frm.invalid">Kaydet</button>&nbsp;
+
+  <!-- Cancel Button -->
+
+  <button mat-raised-button color="warn" (click)="dialogRef.close()">İptal</button>
+
+</div>
