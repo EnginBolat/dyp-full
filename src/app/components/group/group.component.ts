@@ -22,6 +22,15 @@ export class GroupComponent implements OnInit {
   dialogRef?: MatDialogRef<GroupDialogComponent>;
   dataSource: any;
   confirmDialog?: MatDialogRef<ConfirmDialogComponent>;
+
+  // LocalItem
+
+  localName: string = localStorage.getItem('userNameSurname') ?? '';
+  token: string = localStorage.getItem('token') ?? '';
+  uid: string = localStorage.getItem('uid') ?? '';
+  userEmail: string = localStorage.getItem('userEmail') ?? '';
+  userAuth: string = localStorage.getItem('userAuth') ?? '';
+
   constructor(
     public apiService: ApiService,
     public matDialog: MatDialog,
@@ -30,6 +39,10 @@ export class GroupComponent implements OnInit {
 
   ngOnInit() {
     this.ListOfGroup();
+  }
+
+  IsAdmin() {
+    this.apiService.IsAdmin();
   }
 
   ListOfGroup() {
@@ -66,7 +79,6 @@ export class GroupComponent implements OnInit {
       });
     });
   }
-
   EditGroup(record: GroupModel) {
     console.log(record.Id);
     this.dialogRef = this.matDialog.open(GroupDialogComponent, {
@@ -92,15 +104,18 @@ export class GroupComponent implements OnInit {
       width: '400px',
     });
 
-   this.confirmDialog.componentInstance.dialogMesaj = group.groupName + " Grubunu Silmek İstediğinizden Emin Misiniz?";
+    this.confirmDialog.componentInstance.dialogMesaj =
+      group.groupName + ' Grubunu Silmek İstediğinizden Emin Misiniz?';
 
-   this.confirmDialog.afterClosed().subscribe((p)=>{
-    this.apiService.DeleteGroup(group.Id?.toString() ?? "0").subscribe((s:ResultModel)=>{
-      this.alertService.AlertUygula(s);
-      if(s.process){
-        this.ListOfGroup();
-      }
+    this.confirmDialog.afterClosed().subscribe((p) => {
+      this.apiService
+        .DeleteGroup(group.Id?.toString() ?? '0')
+        .subscribe((s: ResultModel) => {
+          this.alertService.AlertUygula(s);
+          if (s.process) {
+            this.ListOfGroup();
+          }
+        });
     });
-   })
   }
 }

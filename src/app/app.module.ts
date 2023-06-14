@@ -19,6 +19,8 @@ import { GroupDialogComponent } from './components/dialogs/group-dialog/group-di
 import { FileComponent } from './components/file/file.component';
 import { FileDialogComponent } from './components/dialogs/file-dialog/file-dialog.component';
 import { LoginComponent } from './components/login/login.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { GroupUserListComponent } from './components/group-user-list/group-user-list.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { LoginComponent } from './components/login/login.component';
     MainNavComponent,
     FileComponent,
     LoginComponent,
+    UserProfileComponent,
+    GroupUserListComponent,
 
     // Dialogs
     AlertDialogComponent,
@@ -36,7 +40,6 @@ import { LoginComponent } from './components/login/login.component';
     UserDialogComponent,
     GroupDialogComponent,
     FileDialogComponent,
-  
 
   ],
   imports: [

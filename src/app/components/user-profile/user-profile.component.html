@@ -1,12 +1,7 @@
 <div class="container">
-  <p>&nbsp;</p>
-  <h2>Dosyalar</h2>
-
-  <!-- Floating Action Button -->
-
-  <button mat-fab (click)="AddFile()">
-    <mat-icon aria-label="label" color="primary">add</mat-icon>
-  </button>
+  <h1><b>{{currentUser?.userNameSurname?.toUpperCase()}}</b></h1>
+  <h4>Toplam Yüklenen Dosya Sayısı: <b>{{files?.length}}</b></h4>
+  <h4>Üye Olduğu Grup: <b>{{currentUser?.userGroup?.groupName}}</b> </h4>
 
   <!-- SearchBox -->
 
@@ -15,9 +10,8 @@
   </mat-form-field>
 
   <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-
-     <!-- Uploader Name Column -->
-     <ng-container matColumnDef="uploader">
+    <!-- Uploader Name Column -->
+    <ng-container matColumnDef="uploader">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Yükleyen Kullanıcı</mat-header-cell>
       <mat-cell *matCellDef="let file">{{ file.fileUploaderId.userNameSurname }}</mat-cell>
     </ng-container>
@@ -28,8 +22,8 @@
       <mat-cell *matCellDef="let file">{{ file.fileName }}</mat-cell>
     </ng-container>
 
-     <!-- GroupName Column -->
-     <ng-container matColumnDef="groupName">
+    <!-- GroupName Column -->
+    <ng-container matColumnDef="groupName">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Grup Adı</mat-header-cell>
       <mat-cell *matCellDef="let file">{{ file.fileGroupId.groupName }}</mat-cell>
     </ng-container>
@@ -38,15 +32,15 @@
     <ng-container matColumnDef="islemler">
       <mat-header-cell *matHeaderCellDef>İşlemler</mat-header-cell>
       <mat-cell *matCellDef="let file">
-        <button mat-icon-button matTooltip="Dosyaları İndir" (click)="DownloadFile(file.fileOriginalName,file.fileType)">
+        <button mat-icon-button matTooltip="Dosyaları İndir">
           <mat-icon aria-label="label" color="primary">download</mat-icon>
         </button>
 
-        <button mat-icon-button matTooltip="Dosya Düzenle" (click)="EditFile(file)" *ngIf="file.fileUploaderId.Id == uid || userAuth=='Admin'">
+        <button mat-icon-button matTooltip="Dosya Düzenle" (click)="EditFile(file)">
           <mat-icon aria-label="label" color="primary">edit</mat-icon>
         </button>
 
-        <button mat-icon-button matTooltip="Dosya Sil" (click)="DeleteFile(file)" *ngIf="file.fileUploaderId.Id == uid || userAuth=='Admin'">
+        <button mat-icon-button matTooltip="Dosya Sil" (click)="DeleteFile(file)">
           <mat-icon aria-label="label" color="warn">delete</mat-icon>
         </button>
       </mat-cell>
@@ -61,6 +55,6 @@
   </mat-table>
 
   <!-- Paginator -->
-  <mat-paginator [pageSizeOptions]="[1, 10, 50, 100, 500]">
+  <mat-paginator [pageSizeOptions]="[1, 10, 50, 100, 500]" showFirstLastButtons="true">
   </mat-paginator>
 </div>

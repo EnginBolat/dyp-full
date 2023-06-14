@@ -10,6 +10,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { ResultModel } from 'src/app/models/result-model';
 import { AlertDialogComponent } from '../dialogs/alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-user',
@@ -27,6 +28,7 @@ export class UserComponent implements OnInit {
   ];
   @ViewChild(MatSort) sort?: MatSort;
   @ViewChild(MatSort) paginator?: MatSort;
+  @ViewChild(MatPaginator) matPaginator?:MatPaginator;
   dialogRef?: MatDialogRef<UserDialogComponent>;
   confirmDialog?: MatDialogRef<ConfirmDialogComponent>;
   dataSource: any;
@@ -44,6 +46,8 @@ export class UserComponent implements OnInit {
     this.apiService.ListOfUser().subscribe((p: MainModel[]) => {
       this.users = p;
       this.dataSource = new MatTableDataSource(this.users);
+      this.dataSource.matSort = this.sort;
+      this.dataSource.matPaginator = this.matPaginator;
     });
   }
 
@@ -66,12 +70,12 @@ export class UserComponent implements OnInit {
     });
 
     this.dialogRef.afterClosed().subscribe((p: MainModel) => {
-      var tempUser: UserModel = new UserModel();
+      var tempUser: MainModel = new MainModel();
       tempUser.userNameSurname = p.userNameSurname;
       tempUser.userEmail = p.userEmail;
       tempUser.userPassword = p.userPassword;
-      tempUser.userAuthorityId = p.userAuthority?.Id;
-      tempUser.userGroupId = p.userGroup?.Id;
+      tempUser.userAuthority = p.userAuthority;
+      tempUser.userGroup = p.userGroup;
 
       this.apiService.AddUser(tempUser).subscribe((s: ResultModel) => {
         this.alertService?.AlertUygula(s);
@@ -82,7 +86,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  EditUser(record: UserModel) {
+  EditUser(record: MainModel) {
     console.log(record.Id);
     this.dialogRef = this.matDialog.open(UserDialogComponent, {
       width: '400px',
@@ -95,15 +99,13 @@ export class UserComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe((p: MainModel) => {
       console.log(p);
 
-      var tempUser: UserModel = new UserModel();
+      var tempUser: MainModel = new MainModel();
       tempUser.Id = p.Id;
       tempUser.userNameSurname = p.userNameSurname;
       tempUser.userEmail = p.userEmail;
       tempUser.userPassword = p.userPassword;
-      tempUser.userAuthorityId = p.userAuthority?.Id;
-      tempUser.userGroupId = p.userGroup?.Id;
-
-      console.log(tempUser.Id);
+      tempUser.userAuthority = p.userAuthority;
+      tempUser.userGroup = p.userGroup;
 
       this.apiService.UpdateUser(tempUser).subscribe((s: ResultModel) => {
         this.alertService?.AlertUygula(s);

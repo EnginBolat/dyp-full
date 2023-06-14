@@ -4,7 +4,8 @@ import { MainModel } from "./main-model";
 export class FileModel {
   Id?: number;
   fileName?: string;
-  fileTypeId?: number;
+  fileOriginalName?:string;
+  fileType?:string;
   fileGroupId?: GroupModel;
   fileUploaderId?: MainModel;
 }

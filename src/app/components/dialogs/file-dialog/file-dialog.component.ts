@@ -23,6 +23,8 @@ export class FileDialogComponent implements OnInit {
   selectedAuth?: string;
   selectedGroup?: string;
   selectedFile?: File;
+  selectedFileType?: string;
+  selectedFileName?: string;
   constructor(
     public apiService: ApiService,
     public matDialog: MatDialog,
@@ -48,26 +50,55 @@ export class FileDialogComponent implements OnInit {
   AddFile(event: any) {
     this.selectedFile = event.target.files[0];
 
-    this.apiService.UploadFile(this.selectedFile);
+    if (this.selectedFile) {
+      const lastDotIndex = this.selectedFile.name.lastIndexOf('.');
+
+      if (lastDotIndex !== -1) {
+        this.selectedFileType = this.selectedFile.name.substring(
+          lastDotIndex + 1
+        );
+        this.selectedFileName = this.selectedFile.name.substring(
+          0,
+          lastDotIndex
+        );
+      } else {
+        this.selectedFileName = this.selectedFileType;
+      }
+
+      this.newRecord.fileOriginalName = this.selectedFileName;
+      this.newRecord.fileType = this.selectedFileType;
+
+      this.frm.patchValue({ fileOriginalName: this.selectedFileName });
+      this.frm.patchValue({ fileType: this.selectedFileType });
+      console.log('Add File:' + this.newRecord.fileOriginalName);
+      console.log('Add FileType:' + this.newRecord.fileType);
+
+      
+      this.apiService.UploadFile(this.selectedFile);
+    }
   }
 
   GetGroupList() {
     this.apiService.ListOfGroups().subscribe((p: GroupModel[]) => {
       this.groupList = p;
     });
+    this.newRecord.fileOriginalName = this.selectedFile?.name;
   }
 
   handleFileInputChange(event: any): void {
+    this.selectedFile = event.target.files[0];
     this.frm.patchValue({ userName: `${event.name}` });
-    console.log(event.target.files[0]);
+    this.frm.patchValue({ fileOriginalName: this.selectedFileName });
+    this.frm.patchValue({ fileType: this.selectedFileType });
   }
 
   CreateFileForm() {
     return this.frmBuilder.group({
       Id: [this.newRecord.Id],
       fileName: [this.newRecord.fileName],
+      fileOriginalName: [this.newRecord.fileOriginalName],
+      fileType: [this.selectedFileType ?? this.newRecord.fileType],
       fileGroupId: [this.newRecord.fileGroupId],
-      fileTypeId: [this.newRecord.fileTypeId],
       fileUploaderId: [this.newRecord.fileUploaderId],
     });
   }
@@ -75,9 +106,12 @@ export class FileDialogComponent implements OnInit {
   EditFileForm() {
     return this.frmBuilder.group({
       Id: [this.newRecord.Id],
-      fileName: [this.selectedFile?.name],
+      fileName: [this.newRecord.fileName],
+      fileOriginalName: [
+        this.selectedFileName ?? this.newRecord.fileOriginalName,
+      ],
+      fileType: [this.selectedFileType ?? this.newRecord.fileType],
       fileGroupId: [this.newRecord.fileGroupId],
-      fileTypeId: [this.newRecord.fileTypeId],
       fileUploaderId: [this.newRecord.fileUploaderId],
     });
   }

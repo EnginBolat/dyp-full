@@ -11,18 +11,15 @@
       <input matInput placeholder="Dosya Adı" formControlName="fileName" name="fileName" required type="text" />
     </mat-form-field>
 
-    <!-- Email -->
+    <!-- Group -->
 
     <mat-form-field appearance="outline">
-      <mat-label>Grup Adı</mat-label>
-      <input matInput placeholder="Grup Adı" formControlName="fileGroupId" name="fileGroupId" required type="text" />
-    </mat-form-field>
-
-    <!-- Type -->
-
-    <mat-form-field appearance="outline">
-      <mat-label>Dosya Türü</mat-label>
-      <input matInput placeholder="Dosya Türü" formControlName="fileTypeId" name="fileTypeId" required type="text" />
+      <mat-label>Grup</mat-label>
+      <mat-select required formControlName="fileGroupId" name="fileGroupId">
+        <mat-option *ngFor="let group of groupList" [value]="group">
+          <mat-label>{{group.groupName}}</mat-label>
+        </mat-option>
+      </mat-select>
     </mat-form-field>
 
     <!--  -->

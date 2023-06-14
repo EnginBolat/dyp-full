@@ -1,0 +1,52 @@
+<div class="container">
+  <h1><b>{{currentGroup?.groupName?.toUpperCase()}}</b></h1>
+  <h4>Toplam Üye Sayısı: <b>{{users?.length}}</b></h4>
+  <!-- <h4>Üye Olduğu Grup: <b>{{currentUser?.userGroup?.groupName}}</b> </h4> -->
+
+  <!-- SearchBox -->
+
+  <mat-form-field appearance="outline">
+    <input matInput placeholder="Aranacak Dosya İsmi Giriniz" (keyup)="Filter($event)" />
+  </mat-form-field>
+
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+    <!-- Filename Column -->
+    <ng-container matColumnDef="userNameSurname">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Adı Soyadı</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{ user.userNameSurname }}</mat-cell>
+    </ng-container>
+
+    <!-- GroupName Column -->
+
+    <ng-container matColumnDef="groupName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Grup Adı</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{ user.userGroup.groupName }}</mat-cell>
+    </ng-container>
+
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="islemler">
+      <mat-header-cell *matHeaderCellDef>İşlemler</mat-header-cell>
+      <mat-cell *matCellDef="let user">
+        <button mat-icon-button matTooltip="Üye Düzenle" (click)="EditUser(user)">
+          <mat-icon aria-label="label" color="primary">edit</mat-icon>
+        </button>
+
+        <button mat-icon-button matTooltip="Üye Sil" (click)="DeleteUser(user)">
+          <mat-icon aria-label="label" color="warn">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Header Row -->
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+    <!-- Row Definition -->
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+  </mat-table>
+
+  <!-- Paginator -->
+  <mat-paginator [pageSizeOptions]="[1, 10, 50, 100, 500]" showFirstLastButtons="true">
+  </mat-paginator>
+</div>
