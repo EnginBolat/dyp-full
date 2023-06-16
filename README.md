@@ -1,10 +1,16 @@
-## Dosya Yonetim Portalı Web API
+## Dosya Yonetim Portalı Angular
+
+[API](https://github.com/EnginBolat/asp-net-webapi)
 
 Projenin Amacı
 
 ```bash
   ⛔ Organizasyonlar içerisinde veya forum sitelerinde dosya paylaşımı yapılıp bunların loglamasını tutacak bir sistem.
 ```
+
+
+
+
 
 ## Giriş Ekranı
 
