@@ -78,7 +78,6 @@ export class FileComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe((p: FileModel) => {
       var tempFile: FileModel = new FileModel();
       var tempMainModel: MainModel = new MainModel();
-      console.log(p.fileOriginalName);
 
       this.apiService
         .UserById(localStorage.getItem('uid') ?? '1')
@@ -91,6 +90,7 @@ export class FileComponent implements OnInit {
           tempMainModel.userGroup = p.userGroup;
         });
 
+      tempFile.Id = p.Id;
       tempFile.fileUploaderId = tempMainModel;
       tempFile.fileName = p.fileName;
       tempFile.fileGroupId = p.fileGroupId;
@@ -99,9 +99,6 @@ export class FileComponent implements OnInit {
 
       var a: number = parseInt(localStorage.getItem('uid') ?? '1');
       tempFile.fileUploaderId.Id = a ?? null;
-
-      console.log(tempFile.fileOriginalName);
-      console.log(tempFile.fileType);
 
       this.apiService.AddFile(tempFile).subscribe((s: ResultModel) => {
         this.alertService?.AlertUygula(s);
@@ -121,45 +118,76 @@ export class FileComponent implements OnInit {
       },
     });
 
+    // this.dialogRef.afterClosed().subscribe((p: FileModel) => {
+    //   if (FileModel != null) {
+    //     var tempFile: FileModel = new FileModel();
+    //     var tempMainModel: MainModel = new MainModel();
+    //     this.apiService
+    //       .UserById(localStorage.getItem('uid') ?? '2')
+    //       .subscribe((p) => {
+    //         tempMainModel.Id = p.Id;
+    //         tempMainModel.userNameSurname = p.userNameSurname;
+    //         tempMainModel.userEmail = p.userEmail;
+    //         tempMainModel.userPassword = p.userPassword;
+    //         tempMainModel.userAuthority = p.userAuthority;
+    //         tempMainModel.userGroup = p.userGroup;
+    //       });
+
+    //     console.log(tempMainModel);
+
+    //     if (tempFile && tempFile.fileGroupId !== undefined) {
+    //       tempFile.Id = p.Id;
+    //       tempFile.fileUploaderId = tempMainModel;
+    //       tempFile.fileName = p.fileName;
+    //       tempFile.fileGroupId.Id = p.fileGroupId?.Id;
+    //       tempFile.fileGroupId.groupName = p.fileGroupId?.groupName;
+    //       tempFile.fileOriginalName = p.fileOriginalName;
+    //       tempFile.fileUploaderId = p.fileUploaderId;
+    //       tempFile.fileType = p.fileType;
+    //     }
+
+    //     console.log(tempFile.Id);
+
+    //     this.apiService.UpdateFile(tempFile).subscribe((s: ResultModel) => {
+    //       this.alertService?.AlertUygula(s);
+    //       if (s.process) {
+    //         this.ListOfFile();
+    //       }
+    //     });
+    //   }
+    // });
+
     this.dialogRef.afterClosed().subscribe((p: FileModel) => {
-      if (FileModel != null) {
-        var tempFile: FileModel = new FileModel();
-        var tempMainModel: MainModel = new MainModel();
-        this.apiService
-          .UserById(localStorage.getItem('id') ?? '2')
-          .subscribe((p) => {
-            tempMainModel.Id = p.Id;
-            tempMainModel.userNameSurname = p.userNameSurname;
-            tempMainModel.userEmail = p.userEmail;
-            tempMainModel.userPassword = p.userPassword;
-            tempMainModel.userAuthority = p.userAuthority;
-            tempMainModel.userGroup = p.userGroup;
-          });
+      var tempFile: FileModel = new FileModel();
+      var tempMainModel: MainModel = new MainModel();
 
-        console.log('tempMainModel');
-        console.log(tempMainModel);
-
-        if (tempFile && tempFile.fileGroupId !== undefined) {
-          tempFile.Id = p.Id;
-          tempFile.fileUploaderId = tempMainModel;
-          tempFile.fileName = p.fileName;
-          tempFile.fileGroupId.Id = p.fileGroupId?.Id;
-          tempFile.fileGroupId.groupName = p.fileGroupId?.groupName;
-          tempFile.fileOriginalName = p.fileOriginalName;
-          tempFile.fileUploaderId = p.fileUploaderId;
-          tempFile.fileType = p.fileType;
-        }
-
-        console.log('tempFile');
-        console.log(tempFile.Id);
-
-        this.apiService.UpdateFile(tempFile).subscribe((s: ResultModel) => {
-          this.alertService?.AlertUygula(s);
-          if (s.process) {
-            this.ListOfFile();
-          }
+      this.apiService
+        .UserById(localStorage.getItem('uid') ?? '1')
+        .subscribe((p) => {
+          tempMainModel.Id = parseInt(localStorage.getItem('uid') ?? '1');
+          tempMainModel.userNameSurname = p.userNameSurname;
+          tempMainModel.userEmail = p.userEmail;
+          tempMainModel.userPassword = p.userPassword;
+          tempMainModel.userAuthority = p.userAuthority;
+          tempMainModel.userGroup = p.userGroup;
         });
-      }
+
+      tempFile.Id = p.Id;
+      tempFile.fileUploaderId = tempMainModel;
+      tempFile.fileName = p.fileName;
+      tempFile.fileGroupId = p.fileGroupId;
+      tempFile.fileType = p.fileType;
+      tempFile.fileOriginalName = p.fileOriginalName;
+
+      var a: number = parseInt(localStorage.getItem('uid') ?? '1');
+      tempFile.fileUploaderId.Id = a ?? null;
+
+      this.apiService.UpdateFile(tempFile).subscribe((s: ResultModel) => {
+        this.alertService?.AlertUygula(s);
+        if (s.process) {
+          this.ListOfFile();
+        }
+      });
     });
   }
 
@@ -184,9 +212,9 @@ export class FileComponent implements OnInit {
   }
 
   DownloadFile(fileName: string, fileType: string) {
-    console.log("Name: "+fileName);
-    console.log("Type: "+fileType);
-    console.log("File: "+fileName+"."+fileType);
+    console.log('Name: ' + fileName);
+    console.log('Type: ' + fileType);
+    console.log('File: ' + fileName + '.' + fileType);
     console.log(fileType);
     this.apiService.downloadFile(fileName, fileType);
   }

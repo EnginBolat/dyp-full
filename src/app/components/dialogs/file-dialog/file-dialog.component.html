@@ -24,7 +24,7 @@
 
     <!--  -->
     &nbsp;
-    <div>
+    <div *ngIf="process == 'add'">
       <input type="file" (change)="AddFile($event)"/>
     </div>
     &nbsp;

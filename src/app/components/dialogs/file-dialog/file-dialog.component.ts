@@ -73,7 +73,6 @@ export class FileDialogComponent implements OnInit {
       console.log('Add File:' + this.newRecord.fileOriginalName);
       console.log('Add FileType:' + this.newRecord.fileType);
 
-      
       this.apiService.UploadFile(this.selectedFile);
     }
   }
